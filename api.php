@@ -1,4 +1,5 @@
 <?php
+
 header("Content-Type: application/json");
 
 function connectDB()
@@ -18,6 +19,7 @@ function connectDB()
         return $pdo;
     } catch (PDOException $e) {
         http_response_code(500);
+        error_log("Database connection failed: " . $e->getMessage());
         echo json_encode(["error" => "Conexión fallida: " . $e->getMessage()]);
         exit;
     }
@@ -32,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode($data);
     } catch (Exception $e) {
         http_response_code(500);
-        echo json_encoce(["error" => "Error al obtener los datos: " . $e->getMessage()]);
+        error_log("Error fetching data: " . $e->getMessage());
+        echo json_encode(["error" => "Error al obtener los datos: " . $e->getMessage()]);
     }
 } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -50,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         echo json_encode(["success" => true]);
     } catch (Exception $e) {
         http_response_code(500);
+        error_log("Error updating data: " . $e->getMessage());
         echo json_encode(["error" => "Error al actualizar los datos: " . $e->getMessage()]);
     }
 }
