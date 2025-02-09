@@ -49,11 +49,25 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      document.getElementById('name').innerText = 'Joan';
-      document.getElementById('profession').innerText = 'Desarrollador Web';
-      document.getElementById('email').innerText = 'joangnz@gmail.com';
-      document.getElementById('experience').innerText = '5 meses en MyNews como desarrollador web';
+      fetch('http://127.0.0.1/api/getCV')
+        .then(response => response.json())
+        .then(data => setCV(data))
+        .catch(error => setCV(null));
     });
+
+    function setCV(data) {
+      if (!data) {
+        document.getElementById('name').innerText = 'Joan';
+        document.getElementById('profession').innerText = 'Desarrollador Web';
+        document.getElementById('email').innerText = 'joangnz@gmail.com';
+        document.getElementById('experience').innerText = '5 meses en MyNews como desarrollador web';
+      } else {
+        document.getElementById('name').innerText = data['name'];
+        document.getElementById('profession').innerText = data['profession'];
+        document.getElementById('email').innerText = data['email'];
+        document.getElementById('experience').innerText = data['experience'];
+      }
+    }
 
     function generatePDF() {
       const doc = new jsPDF();
