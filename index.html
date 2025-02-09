@@ -47,7 +47,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      fetch("./api/")
+      fetch("./api.php")
         .then(res => res.json())
         .then(data => {
           document.getElementById('name').innerText = data.name;
